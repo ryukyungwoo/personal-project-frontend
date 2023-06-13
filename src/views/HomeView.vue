@@ -1,5 +1,10 @@
 <template>
-  <hello-world />
+  <v-container>
+    <div>
+      <nav>
+      </nav>
+    </div>
+  </v-container>
 </template>
 
 <script>
