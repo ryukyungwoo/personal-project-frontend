@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import chartPageRoutes from './chart'
-import mainPageRoutes from './mainPage'
-import chatRoomRoutes from './chatRoom'
+import defaultSetRoutes from '@/domain/page/router'
+import AccountRoutes from '@/domain/user/account/router'
+
 
 Vue.use(VueRouter)
 
 const routes = [
-  ...chartPageRoutes,
-  ...mainPageRoutes,
-  ...chatRoomRoutes,
+  ...defaultSetRoutes,
+  ...AccountRoutes
 ]
 
 const router = new VueRouter({

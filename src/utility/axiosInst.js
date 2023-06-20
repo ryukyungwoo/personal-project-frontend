@@ -15,4 +15,7 @@ const fastApiAxiosInst = axios.create({
     timeout: 2500
 })
 
-export default { axiosInst, springAxiosInst, fastApiAxiosInst }
+const websocketInst = 'http://localhost:7777/ws'
+  
+
+export default { axiosInst, springAxiosInst, fastApiAxiosInst, websocketInst}
