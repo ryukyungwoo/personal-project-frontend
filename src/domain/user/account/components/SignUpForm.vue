@@ -75,8 +75,8 @@ export default {
         }
     },
     props:{
-        checkDuplicateEmail: {
-            type: Function,
+        emailPass: {
+            type: Boolean,
             required: true
         }
     },
@@ -96,6 +96,10 @@ export default {
             return this.emailPass && 
             this.email_rule[1](this.email) && 
             this.password_rule[1](this.password) === true
+        },
+        checkDuplicateEmail() {
+            const {email, emailPass} = this
+            this.$emit("checkDuplicateEmail", { email, emailPass })
         }
     },
 }
