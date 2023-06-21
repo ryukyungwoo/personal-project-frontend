@@ -1,7 +1,8 @@
 <template lang="">
     <div>
-        <sign-up-form @submit="onSubmit" 
-        @checkDuplicateEmail="checkDuplicateEmail"></sign-up-form>
+        <!-- <sign-up-form @submit="onSubmit" 
+        @checkDuplicateEmail="checkDuplicateEmail"></sign-up-form> -->
+        <sign-up-form @submit="onSubmit"></sign-up-form>
     </div>
 </template>
 
@@ -16,7 +17,9 @@ export default {
         SignUpForm
     },
     methods: {
-        ...mapActions(accountModule, ['requestRegisterAccountToSpring', 'requestSpringToCheckEmailDuplication']),
+        // ...mapActions(accountModule, ['requestRegisterAccountToSpring', 'requestSpringToCheckEmailDuplication']),
+        ...mapActions(accountModule, ['requestRegisterAccountToSpring']),
+        
         async onSubmit (payload) {
             const isSuccess = await this.requestRegisterAccountToSpring(payload)
             if (isSuccess) {
@@ -24,19 +27,19 @@ export default {
             }
         }
     },
-    async checkDuplicateEmail () {
-            const emailValid = this.email.match(
-                /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            )
-            this.emailPass = false
+    // async checkDuplicateEmail (payload) {
+    //         const { email, emailPass } =payload
+    //         const emailValid = email.match(
+    //             /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    //         )
 
-            if (emailValid) {
-                const { email } = this
-                console.log('before actions - email: ' + email)
-                this.emailPass = await this.requestSpringToCheckEmailDuplication({ email }
-                )
-            }
-        },
+    //         if (emailValid) {
+    //             const { email } = this
+    //             console.log('before actions - email: ' + email)
+    //             emailPass = await this.requestSpringToCheckEmailDuplication({ email }
+    //             )
+    //         }
+    //     },
 }
 
 </script>
