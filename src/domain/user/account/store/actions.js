@@ -39,7 +39,8 @@ export default {
         return axiosInst.spring.post('/account/sign-in', { email, password })
         .then((res) => {
             alert('로그인 성공')
-            return res.data
+            let userToken = res.data.userToken;
+            localStorage.setItem("userToken", userToken)
         })
         .catch(() => {
             alert('문제 발생')
