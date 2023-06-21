@@ -7,12 +7,10 @@
       <tr>
         <td>
           <v-container class="table">            
-            <chart-form/>            
           </v-container>        
         </td>
         <td>
-          <v-container class="table">            
-            <chat-room-form/>                   
+          <v-container class="table">              
           </v-container>     
         </td>
       </tr>

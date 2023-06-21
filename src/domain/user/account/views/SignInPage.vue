@@ -15,9 +15,9 @@ export default {
         SignInForm
     },
     methods: {
-        ...mapActions(accountModule, ['requestSpringToLoginDuplication']),
+        ...mapActions(accountModule, ['requestLoginAccountToSpring']),
         async onSubmit (payload) {
-            const isSuccess = await this.requestSpringToLoginDuplication(payload)
+            const isSuccess = await this.requestLoginAccountToSpring(payload)
             if (isSuccess) {
                 this.$router.push("/")
             }

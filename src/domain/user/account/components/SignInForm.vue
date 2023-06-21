@@ -33,7 +33,7 @@
                                         로그인</v-btn>
                             </v-form>
                             <router-link to="sign-up-page">
-                            <v-btn type="submit" block x-large rounded
+                            <v-btn block x-large rounded
                                         color="blue lighten-2" class="mt-6">                                        
                                         회원가입</v-btn></router-link>
                             </v-form>
@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import axiosInst from '../../../../utility/axiosInst'
-import { mapActions } from 'vuex'
 
 const accountModule = 'accountModule'
 
@@ -58,6 +56,13 @@ export default {
             password: "",
         }
     },
+    methods:{
+        onSubmit() {
+        const { email, password } = this
+        this.$emit("submit", { email, password })
+    }
+    }
+    
 
 }
 
