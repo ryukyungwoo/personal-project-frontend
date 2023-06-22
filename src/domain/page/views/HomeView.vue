@@ -6,7 +6,8 @@
       </th>
       <tr>
         <td>
-          <v-container class="table">            
+          <v-container class="table">
+            <stock-list-form/>            
           </v-container>        
         </td>
         <td>
@@ -18,10 +19,11 @@
   </div>
 </template>
 <script>
-
+import StockListForm from '@/domain/stock/components/StockListForm.vue';
 export default {
 
   components: {
+    StockListForm,
   },
 }
 </script>
