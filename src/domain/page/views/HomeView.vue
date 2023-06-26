@@ -1,9 +1,6 @@
 <template lang="">
   <div>
     <div>
-      <th>      
-        <h1>stock & chat</h1>
-      </th>
       <tr>
         <td>
           <v-container class="table">
