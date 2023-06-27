@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <h2>Vue + Spring + JPA 게시판 읽기</h2>
+        <h2>{{ board.title }}</h2>
         <board-read-form v-if="board" :board="board"/>
         <p v-else>로딩중 .......</p>
         <router-link :to="{ name: 'BoardModifyPage', params: { boardId }}">
