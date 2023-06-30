@@ -3,7 +3,7 @@
         <h2>{{ board.title }}</h2>
         <board-read-form v-if="board" :board="board"/>
         <p v-else>로딩중 .......</p>
-        <router-link :to="{ name: 'BoardModifyPage', params: { boardId }}">
+        <router-link :to="{ name: 'BoardModifyPage', params: { id }}">
             게시물 수정
         </router-link>
         <button @click="onDelete">삭제</button>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import BoardReadForm from '@/components/board/BoardReadForm.vue'
+import BoardReadForm from '../components/BoardReadForm.vue'
 import { mapActions, mapState } from 'vuex';
 
 const boardModule = 'boardModule'
@@ -24,7 +24,7 @@ export default {
         BoardReadForm
     },
     props: {
-        boardId: {
+        id: {
             type: String,
             required: true,
         },
@@ -34,15 +34,15 @@ export default {
     },
     methods: {
         ...mapActions(
-            boardModule, ['requestBoardToSpring', 'requestDeleteBoardToSpring']
+            boardModule, ['requestBoardToSpring']
         ),
         async onDelete () {
-            await this.requestDeleteBoardToSpring(this.boardId)
+            await this.requestDeleteBoardToSpring(this.id)
             await this.$router.push({ name: 'BoardListPage' })
         }
     },
     created () {
-        this.requestBoardToSpring(this.boardId)
+        this.requestBoardToSpring(this.id)
     }
 }
 </script>

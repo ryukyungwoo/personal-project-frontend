@@ -4,7 +4,7 @@
             <tr>
                 <td>게시물 번호</td>
                 <td>
-                    <input type="text" :value="board.boardId" readonly/>
+                    <input type="text" :value="board.id" readonly/>
                 </td>
             </tr>
             <tr>

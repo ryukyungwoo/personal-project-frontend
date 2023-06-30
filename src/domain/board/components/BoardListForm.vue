@@ -43,14 +43,14 @@ export default {
                     현재 등록된 게시물이 없습니다!
                 </td>
             </tr>
-            <tr v-else v-for="board in boards" :key="board.boardId">
+            <tr v-else v-for="board in boards" :key="board.id">
                 <td align="center">
-                    {{ board.boardId }}
+                    {{ board.id }}
                 </td>
                 <td align="center">
                     <router-link :to="{ 
                         name: 'BoardReadPage', 
-                        params: { boardId: board.boardId.toString() }}">
+                        params: { id: board.id.toString() }}">
                             {{ board.title }}
                     </router-link>
                 </td>

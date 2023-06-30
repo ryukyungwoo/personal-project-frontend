@@ -51,7 +51,6 @@ export default {
         },
         async signOut () {
             await this.requestLogOutAccountToSpring()
-            alert('로그아웃')
             location.reload()
         },
         goHome () {
