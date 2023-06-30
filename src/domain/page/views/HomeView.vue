@@ -8,7 +8,8 @@
           </v-container>        
         </td>
         <td>
-          <v-container class="table">              
+          <v-container class="table"> 
+            <button @click=toBoardListPage()>Board List</button> 
           </v-container>     
         </td>
       </tr>
@@ -22,6 +23,13 @@ export default {
   components: {
     StockListForm,
   },
+  methods: {
+    toBoardListPage() {
+      this.$router.push({
+        name: 'BoardListPage'
+      })
+    }
+  }
 }
 </script>
 <style lang="css">

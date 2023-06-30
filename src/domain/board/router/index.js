@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import BoardListPage from '../views/BoardListPage'
 import BoardRegisterPage from '../views/BoardRegisterPage'
 import BoardReadPage from '../views/BoardReadPage'
+import BoardModifyPage from '../views/BoardModifyPage'
 
 Vue.use(VueRouter)
 
@@ -19,9 +20,15 @@ const BoardRoutes = [
         component: BoardRegisterPage
     },
     {
-        path: '/board-read-page/:boardId',
+        path: '/board-read-page/:id',
         name: 'BoardReadPage',
         components: { default: BoardReadPage },
+        props: { default: true },
+    },
+    {
+        path: '/board-modify-page/:id',
+        name: 'BoardModifyPage',
+        components: { default: BoardModifyPage },
         props: { default: true },
     },
 ]
