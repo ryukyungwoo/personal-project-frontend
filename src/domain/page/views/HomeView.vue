@@ -4,7 +4,9 @@
       <tr>
         <td>
           <v-container class="table">
-            <stock-list-form/>            
+            <div>                      
+              <stock-list-form :stocks="stocks"/>
+          </div>       
           </v-container>        
         </td>
         <td>
@@ -18,18 +20,31 @@
 </template>
 <script>
 import StockListForm from '@/domain/stock/components/StockListForm.vue';
+import { mapActions, mapState } from 'vuex';
+
+const stockModule = 'stockModule'
+
 export default {
 
   components: {
     StockListForm,
   },
   methods: {
+    ...mapActions(
+      stockModule, ['requestStockListToSpring']
+    ),
     toBoardListPage() {
       this.$router.push({
         name: 'BoardListPage'
       })
-    }
-  }
+    },
+  },
+  computed: {
+    ...mapState(stockModule, ['stocks'])
+  },
+  mounted () {
+    this.requestStockListToSpring()
+  },
 }
 </script>
 <style lang="css">

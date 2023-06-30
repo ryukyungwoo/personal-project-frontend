@@ -1,38 +1,47 @@
-<template>
+<template lang="">
   <div>
-    <h2>코스피 상장 주식 등락률</h2>
-    <div v-if="loading">로딩중...</div>
-    <ul v-else>
-      <li v-for="ticker in tickers">
-        {{ ticker.ticker }}
-      </li>
-    </ul>
+      <h3>주식 목록</h3>
+      <table style="margin: 10px;">
+          <tr>
+              <th align="center" width="10%">번호</th>
+              <th align="center" width="30%">티커</th>
+              <th align="center" width="80%">주식</th>
+          </tr>
+          <tr v-if="!stocks || (Array.isArray(stocks) && stocks.length === 0)">
+              <td colspan="2">
+                  현재 등록된 게시물이 없습니다!
+              </td>
+          </tr>
+          <tr v-else v-for="stock in stocks" :key="stock.id">
+              <td align="center">
+                  {{ stock.id }}
+              </td>
+              <td align="center">
+                  <!-- <router-link :to="{ 
+                      name: 'BoardReadPage', 
+                      params: { id: stock.id.toString() }}">
+                          {{ stock.ticker }}
+                  </router-link> -->
+                  {{ stock.ticker }}
+              </td>
+              <td align="center">
+                  {{ stock.stockName }}
+              </td>              
+          </tr>
+      </table>
   </div>
 </template>
 
 <script>
-import axiosInst from '@/utility/axiosInst';
-
-
 export default {
-  data() {
-    return {
-      tickers: [],
-      loading: true,
-    };
+  props: {
+      stocks: {
+          type: Array
+      }
   },
-
-  created() {
-    axiosInst.fastApi
-      .get("/market_ticker")
-      .then((response) => {
-        this.tickers = response.data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        console.error(error);
-        this.loading = false;
-      });
-  },
-};
+}
 </script>
+
+<style lang="">
+  
+</style>
