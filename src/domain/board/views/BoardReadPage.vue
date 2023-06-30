@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         ...mapActions(
-            boardModule, ['requestBoardToSpring']
+            boardModule, ['requestBoardToSpring', 'requestDeleteBoardToSpring']
         ),
         async onDelete () {
             await this.requestDeleteBoardToSpring(this.id)

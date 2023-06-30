@@ -46,4 +46,13 @@ export default {
                 alert('문제 발생!')
             })
     },
+    requestDeleteBoardToSpring ({}, id) {
+        return axiosInst.spring.delete(`/board/${id}`)
+            .then((res) => {
+                alert('삭제 성공!')
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+    },
 }
