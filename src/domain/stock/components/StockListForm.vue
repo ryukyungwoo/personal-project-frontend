@@ -11,15 +11,15 @@
                   현재 등록된 게시물이 없습니다!
               </td>
           </tr>
-          <tr v-else v-for="stock in stocks" :key="stock.ticker">
-              
+          <tr v-else v-for="stock in stocks" :key="stock.ticker">              
               <td align="center">
                   <router-link :to="{ 
                       name: 'StockMainPage', 
                       params: { ticker: stock.ticker.toString() }}">
                           {{ stock.ticker }}
                   </router-link>
-              </td>
+                  
+                </td>
               <td align="center">
                   {{ stock.stockName }}
               </td>              
@@ -35,6 +35,7 @@ export default {
           type: Array,
       }
   },
+  
   
 }
 </script>

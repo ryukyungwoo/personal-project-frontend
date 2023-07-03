@@ -1,4 +1,4 @@
-<template lang="">
+<!-- <template lang="">
     <div>
         <board-list-form :boards="boards"/>
         <div style="text-align: left; margin: 15px;">
@@ -38,4 +38,4 @@ export default {
 
 <style lang="">
     
-</style>
+</style> -->

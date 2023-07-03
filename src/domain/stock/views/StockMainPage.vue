@@ -18,6 +18,12 @@ const boardModule = 'boardModule'
 export default {
     components: { BoardListForm },
 
+    props: {
+        ticker: {
+            type: String,
+            required: true,
+        }
+    },
     data () {
         return {
         }
@@ -25,7 +31,8 @@ export default {
     computed: {
         ...mapState(boardModule, ['boards']),
     },
-    mounted () {
+    created () {
+        console.log('1')
         this.requestBoardListToSpring()
     },
     methods: {
