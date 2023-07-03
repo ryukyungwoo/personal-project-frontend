@@ -9,11 +9,11 @@
           </div>       
           </v-container>        
         </td>
-        <td>
+        <!-- <td>
           <v-container class="table"> 
             <button @click=toBoardListPage()>Board List</button> 
           </v-container>     
-        </td>
+        </td> -->
       </tr>
     </div>          
   </div>
@@ -33,11 +33,11 @@ export default {
     ...mapActions(
       stockModule, ['requestStockListToSpring']
     ),
-    toBoardListPage() {
-      this.$router.push({
-        name: 'BoardListPage'
-      })
-    },
+    // toBoardListPage() {
+    //   this.$router.push({
+    //     name: 'BoardListPage'
+    //   })
+    // },
   },
   computed: {
     ...mapState(stockModule, ['stocks'])

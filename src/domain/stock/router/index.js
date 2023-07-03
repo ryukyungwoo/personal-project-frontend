@@ -7,9 +7,10 @@ Vue.use(VueRouter)
 
 const StockRoutes = [
     {
-        path: '/stock-main-page',
-        name: 'stockMainPage',
-        component: StockMainPage
+        path: '/stock-main-page/:ticker',
+        name: 'StockMainPage',
+        component: { default: StockMainPage },
+        props: {default: true}
     },
 ]
 
