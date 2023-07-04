@@ -1,5 +1,5 @@
 <template lang="">
-    <v-app-bar color="primary" app dark height="64">
+    <v-app-bar color="primary" app dark height="64" fixed>
         <v-btn @click="goHome">
             <v-toolbar-title class="text-uppercase text--darken-4">
                 <span>STOCK & CHAT</span>

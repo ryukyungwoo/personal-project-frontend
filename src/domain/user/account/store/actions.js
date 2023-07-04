@@ -2,7 +2,6 @@
 
 
 import axiosInst from '@/utility/axiosInst'
-import { REQUEST_LOG_IN_TO_SPRING } from './mutation-types'
 
 export default {
     requestRegisterAccountToSpring ({ }, payload) {
