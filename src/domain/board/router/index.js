@@ -1,32 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import BoardListPage from '../views/BoardListPage'
 import BoardRegisterPage from '../views/BoardRegisterPage'
 import BoardReadPage from '../views/BoardReadPage'
 import BoardModifyPage from '../views/BoardModifyPage'
 
 Vue.use(VueRouter)
 
-const BoardRoutes = [
+const BoardRoutes = [    
     {
-        path: '/board-list-page',
-        name: 'BoardListPage',
-        component: BoardListPage
-    },
-    {
-        path: '/board-register-page',
+        path: '/board-register-page/:ticker',
         name: 'BoardRegisterPage',
-        component: BoardRegisterPage
+        components: { default: BoardRegisterPage },
+        props: { default: true}
     },
     {
-        path: '/board-read-page/:id',
+        path: '/board-read-page/:ticker/:id',
         name: 'BoardReadPage',
         components: { default: BoardReadPage },
         props: { default: true },
     },
     {
-        path: '/board-modify-page/:id',
+        path: '/board-modify-page/:ticker/:id',
         name: 'BoardModifyPage',
         components: { default: BoardModifyPage },
         props: { default: true },

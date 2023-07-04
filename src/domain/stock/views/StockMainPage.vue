@@ -2,9 +2,11 @@
     <div>
         <board-list-form :boards="boards"/>
         <div style="text-align: left; margin: 15px;">
-            <router-link :to="{ name: 'BoardRegisterPage' }">
+            <router-link :to="{ 
+                name: 'BoardRegisterPage',
+                params: { ticker: ticker.toString() }}">
                 게시물 작성
-            </router-link>
+            </router-link>            
         </div>        
     </div>
 </template>
@@ -17,7 +19,6 @@ const boardModule = 'boardModule'
 
 export default {
     components: { BoardListForm },
-
     props: {
         ticker: {
             type: String,
@@ -32,8 +33,7 @@ export default {
         ...mapState(boardModule, ['boards']),
     },
     created () {
-        console.log('1')
-        this.requestBoardListToSpring()
+        this.requestBoardListToSpring(this.ticker)
     },
     methods: {
         ...mapActions(

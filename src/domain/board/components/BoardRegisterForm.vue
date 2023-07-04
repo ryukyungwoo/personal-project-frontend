@@ -35,6 +35,12 @@
 <script>
 export default {
     name: "BoardRegisterForm",
+    props: {
+        ticker: {
+            type: String,
+            required: true,
+        },
+    },
     data () {
         return {
             title: '제목을 입력하세요',
@@ -44,8 +50,8 @@ export default {
     },
     methods: {
         onSubmit () {
-            const { title, writer, content } = this
-            this.$emit('submit', { title, writer, content })
+            const { title, writer, content, ticker } = this
+            this.$emit('submit', { title, writer, content, ticker })
         }
     }
 }

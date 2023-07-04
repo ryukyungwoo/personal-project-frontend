@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <h2>게시물 작성</h2>
-        <board-register-form @submit="onSubmit"/>
+        <board-register-form @submit="onSubmit" :ticker="ticker"/>
     </div>
 </template>
 
@@ -12,6 +12,12 @@ import { mapActions } from 'vuex';
 const boardModule = 'boardModule'
 
 export default {
+    props: {
+        ticker: {
+            type: String,
+            required: true,
+        },
+    },
     components: {
         BoardRegisterForm,
     },

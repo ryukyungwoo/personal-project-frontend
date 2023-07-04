@@ -6,7 +6,7 @@ import {
 import axiosInst from '@/utility/axiosInst'
 
 export default {
-    requestBoardListToSpring ({ commit , ticker}) {
+    requestBoardListToSpring ({ commit }, ticker) {
         return axiosInst.spring.get(`/board/list/${ticker}`)
             .then((res) => {
                 commit(REQUEST_BOARD_LIST_TO_SPRING, res.data)
@@ -18,9 +18,9 @@ export default {
                 commit(REQUEST_BOARD_TO_SPRING, res.data)
             })
     },
-    requestCreateBoardToSpring ({}, ticker, payload) {
+    requestCreateBoardToSpring ({}, payload) {
 
-        const { title, content, writer } = payload
+        const { title, content, writer, ticker } = payload
 
         return axiosInst.spring.post(`/board/register/${ticker}`, { title, content, writer })
             .then((res) => {
