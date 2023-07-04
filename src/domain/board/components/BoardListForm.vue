@@ -1,33 +1,3 @@
-<!-- <template lang="">
-   <v-container>      
-      <v-data-table
-          v-model:items-per-page="perPage"
-          :headers="headerTitle"
-          :items="pagedItems"
-          :pagination.sync="pagination"
-          item-value="name"
-          class="elevation-1"
-          @click:row="readRow"
-          item-key="boardId"/>
-      <v-pagination
-          v-model="pagination.page"
-          :length="Math.ceil(boards.length / perPage)"
-          color="primary"
-          @input="updateItems"/>
-    </v-container>
-</template>
-<script>
-export default {
-    props: {
-        boards: {
-            type: Array
-        }
-    }
-}
-</script>
-<style lang="">
-    
-</style> -->
 <template lang="">
     <div>
         <h3>게시물 목록</h3>
