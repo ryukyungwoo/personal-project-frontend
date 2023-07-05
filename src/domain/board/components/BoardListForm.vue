@@ -1,5 +1,6 @@
 <template lang="">
     <div>
+        <div  class="stockname-title">{{ stockName }}</div>        
         <h3>게시물 목록</h3>
         <table style="margin: 10px;">
             <tr>
@@ -40,11 +41,17 @@ export default {
     props: {
         boards: {
             type: Array
+        },
+        stockName: {
+            type: String
         }
     }
 }
 </script>
 
-<style lang="">
-    
+<style>
+.stockname-title {
+    font-size: 24px;
+    font-weight: bold;
+    }
 </style>
