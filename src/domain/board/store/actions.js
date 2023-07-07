@@ -12,8 +12,9 @@ export default {
                 commit(REQUEST_BOARD_LIST_TO_SPRING, res.data)
             })
     },
-    requestBoardToSpring ({ commit }, ticker, id) {
-        return axiosInst.spring.get(`/board/${ticker}/${id}`)
+    requestBoardToSpring ({ commit }, payload) {
+        const { ticker, orderNumber } = payload
+        return axiosInst.spring.get(`/board/${ticker}/${orderNumber}`)
             .then((res) => {
                 commit(REQUEST_BOARD_TO_SPRING, res.data)
             })

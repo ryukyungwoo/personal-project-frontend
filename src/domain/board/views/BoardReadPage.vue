@@ -3,7 +3,7 @@
         <h2>{{ board.title }}</h2>
         <board-read-form v-if="board" :board="board"/>
         <p v-else>로딩중 .......</p>
-        <router-link :to="{ name: 'BoardModifyPage', params: { id }}">
+        <router-link :to="{ name: 'BoardModifyPage', params: { id: board.id.toString() }}">
             게시물 수정
         </router-link>
         <button @click="onDelete">삭제</button>
@@ -24,7 +24,7 @@ export default {
         BoardReadForm
     },
     props: {
-        id: {
+        orderNumber: {
             type: String,
             required: true,
         },
@@ -43,10 +43,17 @@ export default {
         async onDelete () {
             await this.requestDeleteBoardToSpring(this.id)
             await this.$router.push({ name: 'BoardListPage' })
-        }
+        },
+        async fetchData() {
+            const payload = {
+            ticker: this.ticker,
+            orderNumber: this.orderNumber,
+            };
+            await this.requestBoardToSpring(payload);
+        },
     },
     created () {
-        this.requestBoardToSpring(this.ticker, this.id)
+        this.fetchData();
     }
 }
 </script>
