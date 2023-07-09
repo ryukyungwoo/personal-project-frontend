@@ -13,8 +13,8 @@ export default {
             })
     },
     requestBoardToSpring ({ commit }, payload) {
-        const { ticker, orderNumber } = payload
-        return axiosInst.spring.get(`/board/${ticker}/${orderNumber}`)
+        const { ticker, id } = payload
+        return axiosInst.spring.get(`/board/${ticker}/${id}`)
             .then((res) => {
                 commit(REQUEST_BOARD_TO_SPRING, res.data)
             })
@@ -33,8 +33,8 @@ export default {
                 alert('문제 발생!')
             })
     },
-    requestBoardModifyToSpring ({}, ticker, payload) {
-        const { title, content, id, writer } = payload
+    requestBoardModifyToSpring ({}, payload) {
+        const { title, content, id, writer, ticker } = payload
 
         console.log("title: " + title + ", content: " + content + 
                     ", writer: " + writer + ", id: " + id)
@@ -47,7 +47,8 @@ export default {
                 alert('문제 발생!')
             })
     },
-    requestDeleteBoardToSpring ({}, ticker, id) {
+    requestDeleteBoardToSpring ({}, payload) {
+        const { ticker, id } = payload
         return axiosInst.spring.delete(`/board/${ticker}/${id}`)
             .then((res) => {
                 alert('삭제 성공!')

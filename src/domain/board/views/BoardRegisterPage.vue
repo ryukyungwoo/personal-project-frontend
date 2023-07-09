@@ -30,7 +30,7 @@ export default {
             const board = await this.requestCreateBoardToSpring(payload)
             await this.$router.push({
                 name: 'BoardReadPage',
-                params: { ticker: board.data.ticker.toString(), orderNumber: board.data.orderNumber.toString() }
+                params: { ticker: board.data.ticker.toString(), id: board.data.id.toString() }
             })
         }
     }

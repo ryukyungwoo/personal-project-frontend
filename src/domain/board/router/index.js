@@ -15,13 +15,13 @@ const BoardRoutes = [
         props: { default: true}
     },
     {
-        path: '/board-read-page/:ticker/:orderNumber',
+        path: '/board-read-page/:ticker/:id',
         name: 'BoardReadPage',
         components: { default: BoardReadPage },
         props: { default: true },
     },
     {
-        path: '/board-modify-page/:ticker/:orderNumber',
+        path: '/board-modify-page/:ticker/:id',
         name: 'BoardModifyPage',
         components: { default: BoardModifyPage },
         props: { default: true },
