@@ -1,5 +1,5 @@
 <template lang="">
-    <div>
+    <div style="width: 600px; height: 600px; overflow: auto; border: 2px solid skyblue;">
         <board-list-form :boards="boards" :stockName="stockName"/>
         <div style="text-align: left; margin: 15px;">
             <router-link :to="{ 

@@ -7,7 +7,7 @@
             게시물 수정
         </router-link>
         <button @click="onDelete">삭제</button>
-        <router-link :to="{ name: 'BoardListPage' }">
+        <router-link :to="{ name: 'StockMainPage' }">
             돌아가기
         </router-link>
     </div>
