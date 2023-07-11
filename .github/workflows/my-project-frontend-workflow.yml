@@ -67,7 +67,7 @@ jobs:
         run: |
           echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin # GitHub Container Registry 로그인
           docker buildx create --name arm64builder --use
-          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t ghcr.io/ryukyungwoo/kdt1-study-31-front:latest --push . # 도커 빌드 및 푸시
+          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t ghcr.io/ryukyungwoo/personal-project-frontend:latest --push . # 도커 빌드 및 푸시
           docker logout # 로그아웃
 
   # 배포 작업 정의
