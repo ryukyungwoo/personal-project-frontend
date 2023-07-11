@@ -1,13 +1,15 @@
 import axios from "axios";
 
 const axiosInst = axios.create({
-    baseURL: 'http://localhost:7777',
+    //baseURL: 'http://localhost:7777',
+    baseURL: env.api.MAIN_API_URL,
     timeout: 2500
 })
 const spring = axiosInst
 
 const fastApi = axios.create({
-    baseURL: 'http://localhost:8000',
+    // baseURL: 'http://localhost:8000',
+    baseURL: env.fastApi.MAIN_API_URL,
     timeout: 2500
 })
 
