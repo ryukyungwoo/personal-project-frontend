@@ -4,22 +4,34 @@
   </div>
     <!-- Chart controls -->
     <div v-else="!isLoading">    
-    <div>
-      <label for="interval">Interval: </label>
-      <select id="interval" v-model="interval" @change="fetchData">
-        <option v-for="value in intervals" :key="value" :value="value">
-          {{ value }}
-        </option>
-      </select>
-
-      <label for="period">Period: </label>
-      <select id="period" v-model="period" @change="fetchData">
-        <option v-for="value in periods" :key="value" :value="value">
-          {{ value }}
-        </option>
-      </select>
-    </div>
-
+      <div>
+        <v-row align="center" no-gutters>
+          <v-col cols="3">
+            <v-select
+              label="Period"
+              :items="periods"
+              v-model="period"
+              @change="setInitialInterval(); fetchData()"
+              dense
+              style="width: 50%; padding-top: 16px; padding-bottom: 16px;"
+              prepend-icon="mdi-calendar"
+            >
+            </v-select>
+          </v-col>
+          <v-col cols="3">
+            <v-select
+              label="Interval"
+              :items="availableIntervals"
+              v-model="interval"
+              @change="fetchData"
+              dense
+              style="width: 50%; padding-top: 16px; padding-bottom: 16px; "
+              prepend-icon="mdi-clock-outline"
+            >
+            </v-select>
+          </v-col>          
+        </v-row>
+      </div>
     <apexchart
       v-if="!isLoading"
       type="candlestick"
@@ -43,10 +55,10 @@ export default {
     return {
       isLoading: true,
       intervals: [
-        "1m", "2m", "5m", "15m", "30m", "60m", "90m", "1h", "1d", "5d", "1wk", "1mo", "3mo"
+        "1m", "2m", "5m", "15m", "30m", "60m", "90m", "1d", "5d", "1wk", "1mo", "3mo"
       ],
       periods: [
-        "1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "max"
+        "1d", "5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"
       ],
       interval: "1m", // 기본값으로 1m 설정
       period: "1d", // 기본값으로 1d 설정
@@ -98,6 +110,8 @@ export default {
   },
   mounted() {
     this.fetchData();
+    this.setInitialInterval();
+    this.fetchData(); 
   },
   methods: {
     async fetchData() {
@@ -110,6 +124,7 @@ export default {
             y: [item.Open, item.High, item.Low, item.Close],
           };
         });
+        
         this.$set(this.series, 0, { name: 'OHLC', data: formattedData }); // updated line
 
         this.series[0].data = formattedData;
@@ -118,6 +133,54 @@ export default {
       } catch (error) {
         console.error("An error occurred while fetching the data:", error);
       }
+    },
+    setInitialInterval() {
+    if (this.period === "1d") {
+      this.interval = "5m";
+    } else if (this.period === "5d") {
+      this.interval = "60m";
+    } else if (this.period === "1mo") {
+      this.interval = "90m";
+    } else if (this.period === "3mo") {
+      this.interval = "1d";
+    } else if (this.period === "6mo") {
+      this.interval = "1d";
+    } else if (this.period === "1y") {
+      this.interval = "5d";
+    } else if (this.period === "5y") {
+      this.interval = "1wk";
+    } else if (this.period === "10y") {
+      this.interval = "1mo";
+    } else if (this.period === "max") {
+      this.interval = "1mo";
+    }
+    // 다른 period에 대한 기본 인터벌도 여기에 추가하십시오
+  },
+  },
+  computed: {
+    // 변경된 부분: 선택 가능한 intervals와 함께 period에 따른 조건 추가
+    availableIntervals() {
+      if (this.period === "1d") {
+        return this.intervals.slice(0, 7);
+      } else if (this.period === "5d") {
+        return this.intervals.slice(4, 8);
+      } else if (this.period === "1mo") {
+        return this.intervals.slice(5, 9);
+      } else if (this.period === "3mo") {
+        return this.intervals.slice(7, 10);
+      } else if (this.period === "6mo") {
+        return this.intervals.slice(7, 10);
+      } else if (this.period === "1y") {
+        return this.intervals.slice(7, 11);
+      } else if (this.period === "5y") {
+        return this.intervals.slice(8, 12);
+      } else if (this.period === "10y") {
+        return this.intervals.slice(9, 12);
+      } else if (this.period === "max") {
+        return this.intervals.slice(9, 12);
+      }
+ 
+      return this.intervals;
     },
   },
 };
