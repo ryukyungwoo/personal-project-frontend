@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <div v-if="isLoading">
+    <h2>Loading...</h2>
+  </div>
     <!-- Chart controls -->
+    <div v-else="!isLoading">    
     <div>
       <label for="interval">Interval: </label>
       <select id="interval" v-model="interval" @change="fetchData">
@@ -99,13 +102,16 @@ export default {
   methods: {
     async fetchData() {
       try {        
-        const response = await axiosInst.fastApi.get('/stock/test');
+        const response = await axiosInst.fastApi
+        .get(`/stock/${this.ticker}/${this.period}/${this.interval}`);
         const formattedData = response.data.map((item) => {
           return {
             x: new Date (item.Date),
             y: [item.Open, item.High, item.Low, item.Close],
           };
         });
+        this.$set(this.series, 0, { name: 'OHLC', data: formattedData }); // updated line
+
         this.series[0].data = formattedData;
         console.log("formmated data", formattedData)
         this.isLoading = false;
