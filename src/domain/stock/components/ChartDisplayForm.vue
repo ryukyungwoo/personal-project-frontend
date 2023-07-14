@@ -37,8 +37,8 @@
       type="candlestick"
       :options="chartOptions"
       :series="series"
-    ></apexchart>
-  </div>
+      ></apexchart>
+    </div>
 </template>
 
 <script>
