@@ -49,6 +49,22 @@
         <td style="text-align: center; padding: 0 5px;">{{ stock.amount }}</td>
       </tr>
     </table>
+      <div class="text-center">
+        {{ nowPage }}
+        <v-btn
+          icon
+          :disabled="nowPage === 1"
+          @click="decreasePage"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          @click="increasePage"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+      </div>
 
   </div>
 </template>
@@ -58,6 +74,14 @@ export default {
   props: {
     stocks: {
       type: Object,
+      required: true,
+    },
+    nowPage: {
+      type: Number,
+      required: true,
+    },
+    hasStocks: {
+      type: Boolean,
       required: true,
     },
   },
@@ -89,9 +113,21 @@ export default {
   onSortItemSelected(selectedSortItem) {
       this.$emit("sort-item-selected", selectedSortItem);
     },
-    onAscendingSelected(selectedAscending) {
-      this.$emit("ascending-selected", selectedAscending);
-    },
+  onAscendingSelected(selectedAscending) {
+    this.$emit("ascending-selected", selectedAscending);
+  },
+  increasePage() {
+    if (!this.hasStocks) {
+        alert("마지막 페이지입니다.");
+        return;
+      }
+    this.$emit("update-now-page", this.nowPage + 1);
+  },
+  decreasePage() {
+    if (this.nowPage > 1) {
+      this.$emit("update-now-page", this.nowPage - 1);
+    }
+  },
 },
 };
 </script>

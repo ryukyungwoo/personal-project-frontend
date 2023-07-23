@@ -3,7 +3,13 @@
     <div style="display: flex; flex-direction: row; justify-content: center; position: sticky; top: 64px;">
       <v-card class="table" style="width: 700px;">
         <v-container>
-          <stock-list-form :stocks="stocks" @sort-item-selected="handleSortItemUpdate" @ascending-selected="handleAscendingSelectedUpdate"/>
+          <stock-list-form 
+          :stocks="stocks" 
+          :nowPage="nowPage" 
+          :hasStocks="hasStocks"
+          @sort-item-selected="handleSortItemUpdate"                                             
+          @ascending-selected="handleAscendingSelectedUpdate"                                            
+          @update-now-page="handleNowPageUpdate"/>
         </v-container>
       </v-card>
       <v-card class="chat-table" style="width: 500px; position: sticky; top: 64px; right: 0; height: calc(60vh - 64px);">
@@ -25,6 +31,7 @@ const stockModule = 'stockModule'
 export default {
   data() {
     return {
+      nowPage: 1,
       ticker: "1",
       selectedSortItem:'open',
       selectedAscending: 'desc' 
@@ -46,16 +53,24 @@ export default {
       this.selectedAscending = selectedAscending;
       this.fetchStockList();
     },
+    handleNowPageUpdate(nowPage) {
+      this.nowPage = nowPage
+      this.fetchStockList();
+    },
     fetchStockList() {
       const payload = {
           OCVA: this.selectedSortItem,
-          ascending: this.selectedAscending
+          ascending: this.selectedAscending,
+          pageNumber: this.nowPage
         }
       this.requestStockListToSpring(payload);
     },
   },
   computed: {
-    ...mapState(stockModule, ['stocks'])
+    ...mapState(stockModule, ['stocks']),
+    hasStocks() {
+      return this.stocks !== null && this.stocks.length > 0;
+    },
   },
   mounted () {
     this.fetchStockList();

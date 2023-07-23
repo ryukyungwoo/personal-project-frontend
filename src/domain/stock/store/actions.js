@@ -5,8 +5,8 @@ import axiosInst from '@/utility/axiosInst'
 
 export default {
     async requestStockListToSpring({ commit }, payload) {
-        const { OCVA, ascending } = payload
-        return axiosInst.spring.get(`/stock/list/${OCVA}/${ascending}`)
+        const { OCVA, ascending, pageNumber } = payload
+        return axiosInst.spring.get(`/stock/list/${OCVA}/${ascending}/${pageNumber}`)
         .then((res) => {
             commit(REQUEST_STOCK_LIST_TO_SPRING, res.data)
         })
