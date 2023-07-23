@@ -8,7 +8,10 @@
         dense
         outlined
         label="Sort Item"
-        :items="['시가', '종가', '변동폭', '등락률', '거래량', '거래대금']"
+        v-model="selectedSortItem"
+        :items="sortOptions"
+        item-text="text"
+        item-value="value"
         @change="onSortItemSelected"
       ></v-select>
       <label for="ascending">Order:</label>
@@ -16,14 +19,15 @@
         dense
         outlined
         label="Order"
-        :items="['True', 'False']"
+        v-model="selectedAscending"
+        :items="ascendingOptions"
         @change="onAscendingSelected"
       ></v-select>
     </div>
 
     <table class="stock-table" style="margin: 10px; width: 100%;">
       <tr>
-        <th style="text-align: center; padding: 0 5px;">티커</th>
+        <th style="text-align: center; padding: 0 5px;">종목</th>
         <th style="text-align: center; padding: 0 5px;">시가</th>
         <th style="text-align: center; padding: 0 5px;">종가</th>
         <th style="text-align: center; padding: 0 5px;">변동폭</th>
@@ -32,17 +36,17 @@
         <th style="text-align: center; padding: 0 5px;">거래대금</th>
       </tr>
       <tr
-        v-for="stock in stockArray"
+        v-for="stock in stocks"
         :key="stock.ticker"
         @click="navigateToStockMainPage(stock.ticker)"
       >
-        <td style="text-align: center; padding: 0 5px;">{{ stock.ticker }}</td>
-        <td style="text-align: center; padding: 0 5px;">{{ stock.시가 }}</td>
-        <td style="text-align: center; padding: 0 5px;">{{ stock.종가 }}</td>
-        <td style="text-align: center; padding: 0 5px;">{{ stock.변동폭 }}</td>
-        <td style="text-align: center; padding: 0 5px;">{{ stock.등락률 }}</td>
-        <td style="text-align: center; padding: 0 5px;">{{ stock.거래량 }}</td>
-        <td style="text-align: center; padding: 0 5px;">{{ stock.거래대금 }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.stockName }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.open }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.close }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.rangeValue }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.fluctuationRate }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.volume }}</td>
+        <td style="text-align: center; padding: 0 5px;">{{ stock.amount }}</td>
       </tr>
     </table>
 
@@ -59,16 +63,21 @@ export default {
   },
   data() {
     return {
-      selectedSortItem: '시가',
-      selectedAscending: 'False',
+      selectedSortItem: 'open',
+      selectedAscending: 'desc',
+      sortOptions: [
+        { text: '시가', value: 'open' },
+        { text: '종가', value: 'close' },
+        { text: '변동폭', value: 'rangeValue' },
+        { text: '등락률', value: 'fluctuationRate' },
+        { text: '거래량', value: 'volume' },
+        { text: '거래대금', value: 'amount' },
+      ],
+      ascendingOptions: [
+        { text: '오름차순', value: 'asc' },
+        { text: '내림차순', value: 'desc' },
+      ],
     };
-  },
-  computed: {
-    stockArray() {
-        return Object.entries(this.stocks).map(([ticker, data]) => {
-            return { ticker, ...data };
-        });
-    },
   },
   methods: {
   navigateToStockMainPage(ticker, stockName) {
@@ -81,7 +90,7 @@ export default {
       this.$emit("sort-item-selected", selectedSortItem);
     },
     onAscendingSelected(selectedAscending) {
-      this.$emit("ascending-selected", selectedAscending === "True");
+      this.$emit("ascending-selected", selectedAscending);
     },
 },
 };

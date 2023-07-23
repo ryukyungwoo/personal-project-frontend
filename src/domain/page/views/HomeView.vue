@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       ticker: "1",
-      selectedSortItem:'시가',
-      selectedAscending: 'False' 
+      selectedSortItem:'open',
+      selectedAscending: 'desc' 
     }
   },
   components: {
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     ...mapActions(
-      stockModule, ['requestStockListToFastAPI']
+      stockModule, ['requestStockListToSpring']
     ),  
     handleSortItemUpdate(selectedSortItem) {
       this.selectedSortItem = selectedSortItem;
@@ -48,10 +48,10 @@ export default {
     },
     fetchStockList() {
       const payload = {
-          OHCLVA: this.selectedSortItem,
+          OCVA: this.selectedSortItem,
           ascending: this.selectedAscending
         }
-      this.requestStockListToFastAPI(payload);
+      this.requestStockListToSpring(payload);
     },
   },
   computed: {
