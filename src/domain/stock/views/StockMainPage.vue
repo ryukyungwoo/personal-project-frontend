@@ -77,16 +77,16 @@ export default {
         const payload = { stockName: this.stock.stockName, nowPage: this.nowPage };
         await this.requestBoardListToSpring(this.ticker);
         await this.requestStockToSpring(this.ticker);
-        this.requestAritcleListToFastApi(payload);
+        await this.requestAritcleListToFastApi(payload);
     },
     methods: {
         ...mapActions(boardModule, ['requestBoardListToSpring']),
         ...mapActions(stockMoudle, ['requestStockToSpring']),
         ...mapActions(articleModule, ['requestAritcleListToFastApi']),
-        handleNowPageUpdate(value) {
+        async handleNowPageUpdate(value) {
           this.nowPage = value;
           const payload = { stockName: this.stock.stockName, nowPage: this.nowPage };
-          this.requestAritcleListToFastApi(payload);
+          await this.requestAritcleListToFastApi(payload);
         },
     }
 }

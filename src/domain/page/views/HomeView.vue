@@ -3,7 +3,7 @@
     <div style="display: flex; flex-direction: row; justify-content: center; position: sticky; top: 64px;">
       <v-card class="table" style="width: 700px;">
         <v-container>
-          <stock-list-form :stocks="stocks" />
+          <stock-list-form :stocks="stocks" @sort-item-selected="handleSortItemUpdate" @ascending-selected="handleAscendingSelectedUpdate"/>
         </v-container>
       </v-card>
       <v-card class="chat-table" style="width: 500px; position: sticky; top: 64px; right: 0; height: calc(60vh - 64px);">
@@ -26,6 +26,8 @@ export default {
   data() {
     return {
       ticker: "1",
+      selectedSortItem:'시가',
+      selectedAscending: 'False' 
     }
   },
   components: {
@@ -34,14 +36,29 @@ export default {
   },
   methods: {
     ...mapActions(
-      stockModule, ['requestStockListToSpring']
+      stockModule, ['requestStockListToFastAPI']
     ),  
+    handleSortItemUpdate(selectedSortItem) {
+      this.selectedSortItem = selectedSortItem;
+      this.fetchStockList();
+    },
+    handleAscendingSelectedUpdate(selectedAscending) {
+      this.selectedAscending = selectedAscending;
+      this.fetchStockList();
+    },
+    fetchStockList() {
+      const payload = {
+          OHCLVA: this.selectedSortItem,
+          ascending: this.selectedAscending
+        }
+      this.requestStockListToFastAPI(payload);
+    },
   },
   computed: {
     ...mapState(stockModule, ['stocks'])
   },
   mounted () {
-    this.requestStockListToSpring()
+    this.fetchStockList();
   },
 }
 </script>
