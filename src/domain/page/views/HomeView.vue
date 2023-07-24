@@ -8,8 +8,9 @@
           :nowPage="nowPage" 
           :hasStocks="hasStocks"
           @sort-item-selected="handleSortItemUpdate"                                             
-          @ascending-selected="handleAscendingSelectedUpdate"                                            
-          @update-now-page="handleNowPageUpdate"/>
+          @ascending-selected="handleAscendingSelectedUpdate"                               
+          @update-now-page="handleNowPageUpdate"
+          @update-mode="handleUpdateMode"/>
         </v-container>
       </v-card>
       <v-card class="chat-table" style="width: 500px; position: sticky; top: 64px; right: 0; height: calc(60vh - 64px);">
@@ -43,20 +44,74 @@ export default {
   },
   methods: {
     ...mapActions(
-      stockModule, ['requestStockListToSpring']
+      stockModule, ['requestStockListToSpring', 'requestOpinionListToSpring']
     ),  
+    handleUpdateMode(mode) {
+      if (mode === 'stock') {
+          this.selectedSortItem = 'open';
+          this.fetchStockList();
+        } else if (mode === 'sentiment') {
+          this.selectedSortItem = 'positiveCount';
+          this.fetchOpinionList();
+        }
+    },
     handleSortItemUpdate(selectedSortItem) {
       this.selectedSortItem = selectedSortItem;
-      this.fetchStockList();
+      if (
+            selectedSortItem === "open" ||
+            selectedSortItem === "close" ||
+            selectedSortItem === "rangeValue" ||
+            selectedSortItem === "fluctuationRate" ||
+            selectedSortItem === "volume"
+          ) {
+            this.fetchStockList();
+          } else if (
+            selectedSortItem === "positiveCount" ||
+            selectedSortItem === "negativeCount" ||
+            selectedSortItem === "naturalCount" ||
+            selectedSortItem === "totalSentimentScore"
+          ) {
+            this.fetchOpinionList();
+          }
     },
     handleAscendingSelectedUpdate(selectedAscending) {
       this.selectedAscending = selectedAscending;
-      this.fetchStockList();
-    },
+      if (
+            this.selectedSortItem === "open" ||
+            this.selectedSortItem === "close" ||
+            this.selectedSortItem === "rangeValue" ||
+            this.selectedSortItem === "fluctuationRate" ||
+            this.selectedSortItem === "volume"
+          ) {
+            this.fetchStockList();
+          } else if (
+            this.selectedSortItem === "positiveCount" ||
+            this.selectedSortItem === "negativeCount" ||
+            this.selectedSortItem === "naturalCount" ||
+            this.selectedSortItem === "totalSentimentScore"
+          ) {
+            this.fetchOpinionList();
+          }    
+        },
     handleNowPageUpdate(nowPage) {
       this.nowPage = nowPage
-      this.fetchStockList();
-    },
+      if (
+            this.selectedSortItem === "open" ||
+            this.selectedSortItem === "close" ||
+            this.selectedSortItem === "rangeValue" ||
+            this.selectedSortItem === "fluctuationRate" ||
+            this.selectedSortItem === "volume"
+          ) {
+            this.fetchStockList();
+          } else if (
+            this.selectedSortItem === "positiveCount" ||
+            this.selectedSortItem === "negativeCount" ||
+            this.selectedSortItem === "naturalCount" ||
+            this.selectedSortItem === "totalSentimentScore"
+          ) {
+            this.fetchOpinionList();
+          }        
+        },
     fetchStockList() {
       const payload = {
           OCVA: this.selectedSortItem,
@@ -65,6 +120,14 @@ export default {
         }
       this.requestStockListToSpring(payload);
     },
+    fetchOpinionList() {
+      const payload = {
+          sortItem: this.selectedSortItem,
+          ascending: this.selectedAscending,
+          pageNumber: this.nowPage
+        }
+        this.requestOpinionListToSpring(payload);
+    }
   },
   computed: {
     ...mapState(stockModule, ['stocks']),
