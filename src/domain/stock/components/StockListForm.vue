@@ -45,18 +45,18 @@
       <tr>
         <th style="text-align: center; padding: 0 5px;">종목</th>
         <template v-if="mode === 'stock'">
-          <th style="text-align: center; padding: 0 5px;">시가</th>
-          <th style="text-align: center; padding: 0 5px;">종가</th>
-          <th style="text-align: center; padding: 0 5px;">변동폭</th>
-          <th style="text-align: center; padding: 0 5px;">등락률</th>
-          <th style="text-align: center; padding: 0 5px;">거래량</th>
-          <th style="text-align: center; padding: 0 5px;">거래대금</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="시가">시가</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="종가">종가</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="변동폭">변동폭</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="등락률">등락률</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="거래량">거래량</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="거래대금">거래대금</th>
         </template>
         <template v-else>
-          <th style="text-align: center; padding: 0 5px;">여론종합</th>
-          <th style="text-align: center; padding: 0 5px;">긍정의견</th>
-          <th style="text-align: center; padding: 0 5px;">부정의견</th>
-          <th style="text-align: center; padding: 0 5px;">중립의견</th>          
+          <th style="text-align: center; padding: 0 5px;" data-title="긍정 점수">긍정점수😁</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="부정 점수">부정점수😢</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="중립 점수">중립점수🤔</th>
+          <th style="text-align: center; padding: 0 5px;" data-title="종합 점수">종합점수📊</th>
         </template>
       </tr>
       <tr v-for="stock in stocks"
@@ -72,11 +72,11 @@
             <td style="text-align: center; padding: 0 5px;">{{ stock.volume }}</td>
             <td style="text-align: center; padding: 0 5px;">{{ stock.amount }}</td>
           </template>
-          <template v-else>
-            <td style="text-align: center; padding: 0 5px;">{{ stock.totalSentimentScore }}</td>
+          <template v-else>            
             <td style="text-align: center; padding: 0 5px;">{{ stock.positiveCount }}</td>
             <td style="text-align: center; padding: 0 5px;">{{ stock.negativeCount }}</td>
             <td style="text-align: center; padding: 0 5px;">{{ stock.naturalCount }}</td>
+            <td style="text-align: center; padding: 0 5px;">{{ stock.totalSentimentScore }}</td>
           </template>
         </tr>
       </table>
@@ -102,6 +102,13 @@
 </template>
 
 <script>
+document.addEventListener("mousemove", function (event) {
+  var tooltip = document.querySelector("[data-title]:hover::after");
+  if (tooltip) {
+    tooltip.style.left = event.pageX + "px";
+    tooltip.style.top = event.pageY + "px";
+  }
+});
 export default {
   props: {
     stocks: {
@@ -156,10 +163,10 @@ export default {
         this.sortOptions = this.getOriginalSortOptions();
       } else {
         this.sortOptions = [
-          { text: '긍정의견', value: 'positiveCount' },
-          { text: '부정의견', value: 'negativeCount' },
-          { text: '중립의견', value: 'naturalCount' },
-          { text: '여론종합', value: 'totalSentimentScore' },
+          { text: '긍정점수', value: 'positiveCount' },
+          { text: '부정점수', value: 'negativeCount' },
+          { text: '중립점수', value: 'naturalCount' },
+          { text: '종합점수', value: 'totalSentimentScore' },
         ];
       }
       this.selectedSortItem = this.sortOptions[0].value;
@@ -238,4 +245,20 @@ export default {
   .switch-thumb.sentiment {
     margin-left: 60px !important;
   }
+
+  [data-title]:hover::after {
+  content: attr(data-title);
+  position: fixed;
+  background-color: #f9f9f9;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  padding: 5px;
+  pointer-events: none; /* 마우스 이벤트를 통과하게 설정 */
+  z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 설정 */
+  transform: translate3d(-50%, -100%, 0); /* 툴팁 위치 조정 */
+}
+
+[data-title] {
+  position: static; /* position 속성을 static으로 변경 */
+}
 </style>
