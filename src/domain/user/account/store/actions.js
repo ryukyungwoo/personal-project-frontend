@@ -22,13 +22,30 @@ export default {
 
         return axiosInst.spring.post('/account/sign-in', { email, password })
         .then((res) => {
-            alert('로그인 성공')
-            let userToken = res.data;
-            localStorage.setItem("userToken", userToken)
+            if(res.data == true) {
+                const cookieString = document.cookie;
+                const cookies = cookieString.split(';');
+                console.log("궁금해: " + cookies)
+
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+
+                    var separatorIndex = cookie.indexOf('=');
+                    var name = cookie.substring(0, separatorIndex);
+                
+                    if (name === "AccessToken") {
+                        localStorage.setItem("isLogin", true)
+                    }
+                }
+                alert('로그인되었습니다.')
+                router.push('/')
+            } else {
+                alert('로그인이 실패하였습니다.')
+            }
         })
-        .catch(() => {
-            alert('문제 발생')
-        })
+        // .catch(() => {
+        //     alert('로그인이 실패하였습니다.')
+        // })
     },
     requestLogOutAccountToSpring({}, ) {
         const userToken = localStorage.getItem('userToken')
