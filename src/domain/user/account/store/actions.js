@@ -51,11 +51,10 @@ export default {
         })
     },
     requestLogOutAccountToSpring({}, ) {
-        const userToken = localStorage.getItem('userToken')
-        return axiosInst.spring.post('/account/sign-out', { userToken })
+        return axiosInst.spring.post('/account/sign-out')
         .then(() => {
+            localStorage.setItem("isLogin", false)
             alert('로그아웃 되셨습니다')
-            localStorage.removeItem("userToken", userToken)
         })
     }
 }
