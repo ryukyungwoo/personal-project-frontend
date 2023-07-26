@@ -19,37 +19,32 @@ export default {
     },
     requestLoginAccountToSpring({}, payload) {
         const{ email, password } = payload
-        
+            
         return axiosInst.spring.post('/account/sign-in', { email, password })
         .then((res) => {
-            if(res.data == true) {
+            if (res.data != null) {
                 alert('로그인되었습니다.')
                 localStorage.setItem('isLogin', 'true'); // 로그인 상태 저장
-
-                // 응답 헤더에서 쿠키 만료일을 얻는다.
-                const cookieExpires = new Date(
-                res.headers['set-cookie']
-                    .split(';')
-                    .find((part) => part.trim().startsWith('Expires='))
-                    .split('=')[1]
-                );
-
-                const remainingTime = cookieExpires.getTime() - new Date().getTime();
-
+    
+                // 서버에서 반환된 refreshTokenExpires 값을 사용합니다.
+                const refreshTokenExpires = new Date(res.data);
+    
+                const remainingTime = refreshTokenExpires.getTime() - new Date().getTime();
+    
                 // 로그아웃 또는 만료 시 실행되는 함수
                 const logoutOrExpire = () => {
-                  localStorage.removeItem('isLogin');
-                  alert('로그아웃 되셨습니다.');
+                    localStorage.removeItem('isLogin');
+                    alert('로그아웃 되셨습니다.');
                 };
-        
-                setTimeout(logoutOrExpire, remainingTime); // 쿠키 만료 시간에 맞추어 설정            
-        
-                
+            
+                setTimeout(logoutOrExpire, remainingTime); // 쿠키 만료 시간에 맞추어 설정
+    
             } else {
                 alert('로그인이 실패하였습니다.')
             }
         })
     },
+    
     requestLogOutAccountToSpring({}, ) {
         return axiosInst.spring.post('/account/sign-out')
         .then(() => {
