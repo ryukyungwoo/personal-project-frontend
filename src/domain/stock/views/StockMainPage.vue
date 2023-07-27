@@ -74,9 +74,9 @@ export default {
         stockName() {return this.stock.stockName;}
     },
     async created() {
+        await this.requestStockToSpring(this.ticker);
         const payload = { stockName: this.stock.stockName, nowPage: this.nowPage };
         await this.requestBoardListToSpring(this.ticker);
-        await this.requestStockToSpring(this.ticker);
         await this.requestAritcleListToFastApi(payload);
     },
     methods: {
