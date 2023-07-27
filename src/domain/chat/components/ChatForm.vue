@@ -30,7 +30,7 @@
     },
     methods: {
       connect() {
-        ws = new WebSocket("ws://" + "localhost:7777" + "/chat/" + this.ticker)
+        ws = new WebSocket("ws://" + process.env.VUE_APP_WEBSOCKET_URL + "/chat/" + this.ticker)
         ws.onopen = () => {
           ws.onmessage = ({data}) => {
             this.logs.push({event: '메세지 수신', data});
