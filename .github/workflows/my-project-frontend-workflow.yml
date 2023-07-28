@@ -98,7 +98,7 @@ jobs:
           script: |
             pwd # 현재 작업 디렉토리 출력
             ls -al # 작업 디렉토리에 있는 모든 파일과 폴더를 출력
-            cd frontend/actions-runner # 디플로이 할 디렉토리로 이동
+            cd personal-project-frontend/actions-runner # 디플로이 할 디렉토리로 이동
             pwd # 현재 작업 디렉토리 출력
             echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin # GitHub Container Registry 로그인
             docker pull ghcr.io/ryukyungwoo/personal-project-frontend:latest # 도커 이미지 pull
