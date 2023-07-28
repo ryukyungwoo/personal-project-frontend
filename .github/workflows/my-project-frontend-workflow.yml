@@ -37,6 +37,7 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
+
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
@@ -45,6 +46,7 @@ jobs:
     - name: Create .env.production for CD Deploy
       run: |
         echo "${{ secrets.CD_DEPLOY_CONFIG }}" > .env.production
+
     - name: Build
       run: |
         npm run build
@@ -61,7 +63,7 @@ jobs:
         username: ec2-user
         key: ${{ secrets.PRIVATE_KEY }}
         source: "./dist/*"
-        target: "/home/ec2-user/personal-project-frontend/actions-runner/actions-tmp-repo"
+        target: "/home/ec2-user/actions-tmp-repo"
 
     - name: Remove Github Actions IP From Security Group
       run: |
@@ -81,7 +83,8 @@ jobs:
           script_stop: true
           script: |
             cd personal-project-frontend/actions-runner
-            cp -r ~/personal-project-frontend/actions-runner/actions-tmp-repo/dist/* ./html/
+            cp -r ~/actions-tmp-repo/dist/* ./html/
+
             docker image prune -f
             docker logout
             
