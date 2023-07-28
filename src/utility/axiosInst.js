@@ -10,6 +10,7 @@ const spring = axiosInst
 const fastApi = axios.create({
     baseURL: process.env.VUE_APP_FASTAPI_URL,
     timeout: 2500
+    
 })
 
   

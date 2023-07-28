@@ -78,14 +78,14 @@ export default {
         await this.requestStockToSpring(this.ticker);
         const payload = { stockName: this.stock.stockName, nowPage: this.nowPage };
         await this.requestBoardListToSpring(this.ticker);
-        await this.loadArticles(payload); // 데이터를 받아오는 함수 호출
+        await this.loadArticles(payload);
     },
     methods: {
         ...mapActions(boardModule, ['requestBoardListToSpring']),
         ...mapActions(stockMoudle, ['requestStockToSpring']),
         ...mapActions(articleModule, ['requestAritcleListToFastApi']),
         async loadArticles(payload) {
-          this.isArticleLoading = false; // 데이터를 받아오기 전에 false로 설정
+          this.isArticleLoading = false;
           await this.requestAritcleListToFastApi(payload);
           setTimeout(() => {
                 this.isArticleLoading = true;
@@ -94,7 +94,7 @@ export default {
         async handleNowPageUpdate(value) {
           this.nowPage = value;
           const payload = { stockName: this.stock.stockName, nowPage: this.nowPage };
-          await this.loadArticles(payload); // 데이터를 받아오는 함수 호출
+          await this.loadArticles(payload);
         },
     }
 }
