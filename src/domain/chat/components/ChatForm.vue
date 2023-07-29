@@ -45,7 +45,7 @@ import axiosInst from '@/utility/axiosInst';
         const accessToken = this.getCookieValue("AccessToken");
         const queryString = `?accessToken=${accessToken}&clientIp=${this.clientIp}`;
 
-        ws = new WebSocket("ws://" + process.env.VUE_APP_WEBSOCKET_URL + "/chat/" + this.ticker + queryString)
+        ws = new WebSocket("ws://" + '43.201.41.0:7777' + "/chat/" + this.ticker + queryString)
         ws.onopen = () => {
           ws.onmessage = ({data}) => {
             this.logs.push(data);
