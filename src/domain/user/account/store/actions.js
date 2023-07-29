@@ -1,6 +1,3 @@
-
-
-
 import axiosInst from '@/utility/axiosInst'
 
 export default {
@@ -51,5 +48,43 @@ export default {
             localStorage.setItem("isLogin", false)
             alert('로그아웃 되셨습니다')
         })
-    }
+    },
+    requestCheckEmailToSpring({}, payload) {
+        const {email} = payload
+        return axiosInst.spring.post('/account/check-duplicate-email', {email})
+        .then((res) => {
+            if (res.data === false) {
+                alert("이미 등록된 이메일입니다.")
+                return
+            }
+            alert("사용 가능한 이메일입니다.")
+            return res.data
+        })
+    },
+    requestCheckNicknameToSpring({}, payload) {
+        const {nickname} = payload
+        return axiosInst.spring.post('/account/check-duplicate-nickname', {nickname})
+        .then((res) => {
+            if (res.data === false) {
+                alert("이미 등록된 닉네임입니다.")
+                return
+            }
+            alert("사용 가능한 닉네임입니다.")
+
+            return res.data
+        })
+    },
+    requestCheckPhonenumberToSpring({}, payload) {
+        const {phoneNumber} = payload
+        return axiosInst.spring.post('/account/check-duplicate-phoneNumber', {phoneNumber})
+        .then((res) => {
+            if (res.data === false) {
+                alert("이미 등록된 전화번호입니다.")
+                return
+            }
+            alert("사용 가능한 전화번호입니다.")
+
+            return res.data
+        })
+    },
 }
