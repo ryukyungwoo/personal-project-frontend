@@ -292,13 +292,13 @@ export default {
     },
     watch: {
         email() {
-        this.duplicatedEmail = false;
+            this.duplicatedEmail = false;
         },
         nickname() {
-        this.duplicatedNickname = false;
+            this.duplicatedNickname = false;
         },
         phoneNumber() {
-        this.duplicatedPhoneNumber = false;
+            this.duplicatedPhoneNumber = false;
         },
     },
 }

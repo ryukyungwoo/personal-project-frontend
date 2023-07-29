@@ -40,6 +40,9 @@ export default {
                 alert('로그인이 실패하였습니다.')
             }
         })
+        .catch(() => {
+            alert('문제 발생')
+        })
     },
     
     requestLogOutAccountToSpring({}, ) {
@@ -47,6 +50,9 @@ export default {
         .then(() => {
             localStorage.setItem("isLogin", false)
             alert('로그아웃 되셨습니다')
+        })
+        .catch(() => {
+            alert('문제 발생')
         })
     },
     requestCheckEmailToSpring({}, payload) {
@@ -59,6 +65,9 @@ export default {
             }
             alert("사용 가능한 이메일입니다.")
             return res.data
+        })
+        .catch(() => {
+            alert('문제 발생')
         })
     },
     requestCheckNicknameToSpring({}, payload) {
@@ -73,6 +82,9 @@ export default {
 
             return res.data
         })
+        .catch(() => {
+            alert('문제 발생')
+        })
     },
     requestCheckPhonenumberToSpring({}, payload) {
         const {phoneNumber} = payload
@@ -85,6 +97,9 @@ export default {
             alert("사용 가능한 전화번호입니다.")
 
             return res.data
+        })
+        .catch(() => {
+            alert('문제 발생')
         })
     },
 }
