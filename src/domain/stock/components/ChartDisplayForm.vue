@@ -133,7 +133,6 @@ export default {
         this.$set(this.series, 0, { name: 'OHLC', data: formattedData }); // updated line
 
         this.series[0].data = formattedData;
-        console.log("formmated data", formattedData)
         this.isLoading = false;
       } catch (error) {
         console.error("An error occurred while fetching the data:", error);
