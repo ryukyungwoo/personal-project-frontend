@@ -28,9 +28,37 @@
                                         :rules="password_rule"
                                         :disabled="false"
                                         required>
-                                    </v-text-field>                                                             
+                                    </v-text-field>    
+
+                                    <v-text-field
+                                        v-model="nickname"
+                                        label="닉네임"
+                                        placeholder="JohnDoe"
+                                        :rules="nickname_rule"
+                                        :disabled="false"
+                                        required
+                                    ></v-text-field> 
+
+                                    <v-text-field
+                                        v-model="phoneNumber"
+                                        label="전화번호"
+                                        placeholder="010-1234-5678"
+                                        :rules="phoneNumber_rule"
+                                        :disabled="false"
+                                        required
+                                    ></v-text-field>
+
+                                    <v-text-field
+                                        v-model="address"
+                                        label="주소"
+                                        placeholder="서울특별시 마포구"
+                                        :rules="address_rule"
+                                        :disabled="false"
+                                        required
+                                    ></v-text-field>
+
                                   </div>
-                                    <v-btn type="submit" block x-large rounded
+                                    <v-btn type="submit" block x-large rounded :disabled="!isFormValid"
                                     color="orange lighten-1" class="mt-6">회원 신청하기</v-btn>
                             </v-form>
                         </v-card-text>
@@ -63,13 +91,49 @@ export default {
                     return pattern.test(replaceV) || '영문,숫자,특수문자를 조합하여 입력해주세요.(8-16자)'
                 }
             ],
+            phoneNumber: "",
+            phoneNumber_rule: [
+                (v) => !!v || "전화번호를 입력해주세요!",
+                (v) => {
+                const replaceV = v.replace(/(\s*)/g, "");
+                const pattern = /^\d{3}\d{3,4}\d{4}$/;
+                return pattern.test(replaceV) || "올바른 전화번호 형식으로 입력해주세요!(010-1234-5678)";
+                },
+            ],
+            nickname: "",
+            nickname_rule: [
+                (v) => !!v || "닉네임를 입력해주세요!",
+                (v) => {
+                    const koreanPattern = /^[가-힣]{2,}$/;
+                    const englishPattern = /^[A-Za-z]{4,}$/;
+                    const isValidKorean = koreanPattern.test(v);
+                    const isValidEnglish = englishPattern.test(v);
+                    return (
+                    (isValidKorean || isValidEnglish) ||
+                    "닉네임은 2자리 이상의 한국어 또는 4자리 이상의 영어로 입력해주세요."
+                    );
+                },
+                ],
+            address: "",
+            address_rule: [(v) => !!v || "주소를 입력해주세요!"],
         }
     },
     methods: {
         onSubmit () {
-                const { email, password } = this
-                this.$emit("submit", { email, password })
+                const { email, password, phoneNumber, nickname, address } = this
+                this.$emit("submit", { email, password, phoneNumber, nickname, address })
         }        
+    },
+    computed: {
+        isFormValid() {
+        return (
+            this.email_rule.every((rule) => rule(this.email) === true) &&
+            this.password_rule.every((rule) => rule(this.password) === true) &&
+            this.phoneNumber_rule.every((rule) => rule(this.phoneNumber) === true) &&
+            this.nickname_rule.every((rule) => rule(this.nickname) === true) &&
+            this.address_rule.every((rule) => rule(this.address) === true)
+        );
+        },
     },
 }
 

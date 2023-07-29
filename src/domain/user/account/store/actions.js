@@ -6,9 +6,9 @@ import axiosInst from '@/utility/axiosInst'
 export default {
     requestRegisterAccountToSpring ({ }, payload) {
 
-        const { email, password } = payload
+        const { email, password, phoneNumber, nickname, address } = payload
 
-        return axiosInst.spring.post('/account/sign-up', { email, password })
+        return axiosInst.spring.post('/account/sign-up', { email, password, phoneNumber, nickname, address })
             .then((res) => {
                 alert('회원 신청하기 성공')
                 return res.data
