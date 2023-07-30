@@ -77,5 +77,20 @@ export default {
         .catch(() => {
             alert('문제 발생!')
         })
+    },
+    requestDeleteCommentToSpring({}, payload) {
+        const {selectedCommentId, deletePassword, nickname} = payload
+        return axiosInst.spring.post('/board/comment/delete', {selectedCommentId, deletePassword, nickname})
+        .then((res) => {
+            if (res.data) {
+                window.location.reload();
+            } else {
+                alert('기존 정보와 기입하신 정보가 다릅니다!')
+            }
+            
+        })
+        .catch(() => {
+            alert('문제 발생!')
+        })
     }
 }

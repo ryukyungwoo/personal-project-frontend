@@ -23,7 +23,12 @@
                 </div>
                 <div>
                   <v-list-item-title>{{ comment.content }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ comment.createDate }}</v-list-item-subtitle>
+                </div>
+                <div>
+                    <v-list-item-subtitle>{{ comment.createDate }}</v-list-item-subtitle>
+                </div>
+                <div @click="openDeleteDialog(comment.id, comment.password)">
+                    <v-btn small color="red">삭제</v-btn>
                 </div>
               </div>
             </v-list-item-content>
@@ -64,6 +69,7 @@
                 cols="40"
                 rows="5"
                 v-model="content"
+                placeholder="본문을 입력하세요"
               ></textarea>
             </div>
             <div>
@@ -73,9 +79,31 @@
         </div>
       </form>
     </div>
-  </div>
-</template>
+    <v-dialog v-model="deleteDialog" max-width="300">
+        <v-card>
+            <v-card-title>
+                <div v-if="showPasswordInput">비밀번호 입력</div>
+                <div v-else>정말 삭제하시겠습니까?</div>
+            </v-card-title>
+            <v-card-text v-if="showPasswordInput">
+                <v-text-field
+                    v-model="deletePassword"
+                    placeholder="비밀번호"
+                    type="text"
+                    @input="validatePassword"
+                ></v-text-field>
+                <div v-if="invalidPassword" class="errorText">비밀번호는 6글자 이상이어야 합니다.</div>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn text small color="primary" @click="confirmDelete" :disabled="invalidPassword">확인</v-btn>
+                <v-btn text small color="red" @click="cancelDelete">취소</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
   
+  </div>  
+</template>
+
 <script>
 export default {
   props: {
@@ -89,12 +117,21 @@ export default {
   },
   data() {
     return {
-      writer: 'ㅇㅇ',
-      content: '본문을 입력하세요',
+      writer: '',
+      content: '',
       password: '',
+      deleteDialog: false,
+      deletePassword: '',
+      selectedCommentId: null,
+      showPasswordInput: false,
+      invalidPassword: false,
+
     };
   },
   methods: {
+    isLoggedIn() {
+      return Boolean(localStorage.getItem("isLogin"));
+    },
     updateWriter(event) {
       this.writer = event.target.value;
     },
@@ -105,6 +142,10 @@ export default {
       }
 
       return true;
+    },
+    validatePassword() {
+      const passwordPattern = /^.{6,}$/;
+      this.invalidPassword = !passwordPattern.test(this.deletePassword);
     },
     checkInputRulesEnabled() {
       if (!this.checkCommonInputRules()) {
@@ -139,14 +180,47 @@ export default {
 
       const { writer, content, password, nickname } = this;
       this.$emit('commentSubmit', { writer, content, password, nickname });
+      this.content = '';
+    },
+    openDeleteDialog(id, password) {
+            this.selectedCommentId = id;
+            this.showPasswordInput = !!password;
+            this.deleteDialog = true;
+        },
+    confirmDelete() {
+        if (this.showPasswordInput) {
+            this.deleteComment();
+        } else {
+            this.$emit("deleteComment", this.selectedCommentId, '', this.nickname);
+            this.cancelDelete();
+        }
+    },
+    deleteComment() {
+        this.$emit("deleteComment", this.selectedCommentId, this.deletePassword, this.nickname);
+        this.selectedCommentId = null;
+        this.deletePassword = "";
+        this.deleteDialog = false;
+    },
+    cancelDelete() {
+      this.selectedCommentId = null;
+      this.deletePassword = "";
+      this.deleteDialog = false;
+    },
+  },
+  computed: {
+    isLogin: function () {
+      return this.isLoggedIn();
     },
   },
 };
 </script>
 
-  
-  <style>
-      .input-container {
+<style>
+.errorText {
+    color: red;
+    font-size: 12px;
+  }
+  .input-container {
     display: flex;
   }
 
@@ -179,5 +253,9 @@ export default {
   .content-textarea {
     resize: none;
   }
-  </style>
-  
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+</style>

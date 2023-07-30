@@ -8,6 +8,7 @@
       <v-btn :to="{ name: 'StockMainPage' }">돌아가기</v-btn>
       <comment-comprehensive-form 
       @commentSubmit="commentSubmit"
+      @deleteComment="deleteComment"
       :nickname="nickname"
       :comments="comments"
         />
@@ -51,7 +52,8 @@
         "requestBoardToSpring",
         "requestDeleteBoardToSpring",
         "requestRegisterCommentToSpring",
-        "requestCommentListToSpring"
+        "requestCommentListToSpring",
+        "requestDeleteCommentToSpring"
       ]),
       ...mapActions(accountModule, [ 'requestNicknameToSpring' ]),
       async onDelete() {
@@ -85,10 +87,18 @@
       async commentSubmit(payload) {
         payload.id = this.id;
         await this.requestRegisterCommentToSpring(payload)
+      },
+      async deleteComment( selectedCommentId, deletePassword, nickname ) {
+        const payload = {
+            selectedCommentId,
+            deletePassword,
+            nickname
+        };
+        await this.requestDeleteCommentToSpring(payload)
       }
     },
-    created() {
-      this.fetchData();
+    async created() {
+        await this.fetchData();
     },
     async mounted() {      
         const res = await this.requestNicknameToSpring()
@@ -97,5 +107,6 @@
   };
   </script>
   
-  <style lang=""></style>
+  <style lang="">
+</style>
   
