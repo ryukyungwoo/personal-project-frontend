@@ -10,22 +10,22 @@
               <v-list-item-title>현재 등록된 댓글이 없습니다!</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+  
           <v-list-item
-            v-else
             v-for="comment in comments"
             :key="comment.id"
-            :to="{
-              name: 'yourRouteName',
-              params: { id: comment.id.toString() },
-            }"
+            class="text-start"
           >
             <v-list-item-content>
-              <v-list-item-title class="text-start">
-                {{ comment.id }}. {{ comment.content }}
-              </v-list-item-title>
-              <v-list-item-subtitle class="text-start">
-                작성자: {{ comment.writer }} | 등록일자: {{ comment.createDate }}
-              </v-list-item-subtitle>
+              <div class="flex-container">
+                <div>
+                  <v-list-item-title>{{ comment.writer }}</v-list-item-title>
+                </div>
+                <div>
+                  <v-list-item-title>{{ comment.content }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ comment.createDate }}</v-list-item-subtitle>
+                </div>
+              </div>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>

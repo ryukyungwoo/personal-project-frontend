@@ -1,6 +1,7 @@
 import {
     REQUEST_BOARD_LIST_TO_SPRING,
     REQUEST_BOARD_TO_SPRING,
+    REQUEST_COMMENT_LIST_TO_SPRING
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosInst'
@@ -67,11 +68,11 @@ export default {
             console.error("Error during comment registration:", error);
           });
     },
-    requestCommentListToSpring({ }, payload) {
+    requestCommentListToSpring({ commit }, payload) {
         const { id } = payload
         return axiosInst.spring.get(`/board/comment/${id}`)
         .then((res) => {
-            return res
+            commit(REQUEST_COMMENT_LIST_TO_SPRING, res.data)
         })
         .catch(() => {
             alert('문제 발생!')

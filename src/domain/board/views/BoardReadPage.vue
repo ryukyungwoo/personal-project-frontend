@@ -9,6 +9,7 @@
       <comment-comprehensive-form 
       @commentSubmit="commentSubmit"
       :nickname="nickname"
+      :comments="comments"
         />
     </div>
   </template>
