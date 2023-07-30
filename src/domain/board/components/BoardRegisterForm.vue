@@ -63,16 +63,51 @@ export default {
     },
     methods: {
         onSubmit () {
-            if (!this.writer) {
-                alert("작성자를 입력해주세요.");
-                return;
+            let isInputValid = false;
+
+            if (this.nickname) {
+                isInputValid = this.checkCommonInputRules();
+            } else {
+                isInputValid = this.checkInputRulesEnabled();
             }
-            if (!this.password && !this.nickname) {
-                alert("비밀번호를 입력해주세요.");
-                return;
-            }
+
+            if (!isInputValid) return;
+
             const { title, writer, content, ticker, password, nickname } = this
             this.$emit('submit', { title, writer, content, ticker, password, nickname })
+        },
+        checkCommonInputRules() {
+            if (!this.title) {
+                alert("제목을 입력해주세요.");
+                return false;
+            }
+            
+            if (!this.content) {
+                alert("내용을 입력해주세요.");
+                return false;
+            }
+            
+            return true;
+        },
+        checkInputRulesEnabled() {
+            if (!this.checkCommonInputRules()) {
+                return false;
+            }
+
+            const namePattern = /^([가-힣ㄱ-ㅎㅏ-ㅣ]{2,}|[a-zA-Z]{4,})$/;
+            const passwordPattern = /^.{6,}$/;
+
+            if (!namePattern.test(this.writer)) {
+                alert("작성자 이름은 한글 두 글자 이상 또는 영어 네 글자 이상이어야 합니다.");
+                return false;
+            }
+
+            if (!passwordPattern.test(this.password)) {
+                alert("비밀번호는 6글자 이상이어야 합니다.");
+                return false;
+            }
+
+            return true;
         },
         updateWriter (event) {
             this.writer = event.target.value;

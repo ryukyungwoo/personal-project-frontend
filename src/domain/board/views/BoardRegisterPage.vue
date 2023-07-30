@@ -32,9 +32,7 @@ export default {
     },
     name: "BoardRegisterPage",
     methods: {
-        ...mapActions(
-            boardModule, ['requestCreateBoardToSpring']
-        ),
+        ...mapActions(boardModule, ['requestCreateBoardToSpring']),
         ...mapActions(accountModule, [ 'requestNicknameToSpring' ]),
         async onSubmit (payload) {
             const board = await this.requestCreateBoardToSpring(payload)
