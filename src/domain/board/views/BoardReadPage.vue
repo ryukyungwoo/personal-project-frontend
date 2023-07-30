@@ -6,18 +6,30 @@
       <v-btn @click="onModify">게시물 수정</v-btn>
       <v-btn @click="onDelete">삭제</v-btn>
       <v-btn :to="{ name: 'StockMainPage' }">돌아가기</v-btn>
+      <comment-comprehensive-form 
+      @commentSubmit="commentSubmit"
+      :nickname="nickname"
+        />
     </div>
   </template>
   
   <script>
   import BoardReadForm from "../components/BoardReadForm.vue";
+  import CommentComprehensiveForm from "../components/CommentComprehensiveForm.vue"
   import { mapActions, mapState } from "vuex";
   
   const boardModule = "boardModule";
+  const accountModule = "accountModule";
   
   export default {
+    data () {
+        return {
+            nickname: ''
+        }
+    },
     components: {
       BoardReadForm,
+      CommentComprehensiveForm,
     },
     props: {
       id: {
@@ -30,13 +42,17 @@
       },
     },
     computed: {
-      ...mapState(boardModule, ["board"]),
+      ...mapState(boardModule, ["board", "comments"]),
+
     },
     methods: {
       ...mapActions(boardModule, [
         "requestBoardToSpring",
         "requestDeleteBoardToSpring",
+        "requestRegisterCommentToSpring",
+        "requestCommentListToSpring"
       ]),
+      ...mapActions(accountModule, [ 'requestNicknameToSpring' ]),
       async onDelete() {
         const payload = {
           ticker: this.ticker,
@@ -51,7 +67,11 @@
           ticker: this.ticker,
           id: this.id,
         };
+        const commentPayload = {
+            id: this.id
+        };
         await this.requestBoardToSpring(payload);
+        await this.requestCommentListToSpring(commentPayload);
       },
       async onModify() {
         const payload = {
@@ -61,9 +81,17 @@
         };
         await this.$router.push({ name: "BoardCheckPage", params: payload });
       },
+      async commentSubmit(payload) {
+        payload.id = this.id;
+        await this.requestRegisterCommentToSpring(payload)
+      }
     },
     created() {
       this.fetchData();
+    },
+    async mounted() {      
+        const res = await this.requestNicknameToSpring()
+        this.nickname = res.nickname
     },
   };
   </script>

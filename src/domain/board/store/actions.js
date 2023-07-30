@@ -57,4 +57,24 @@ export default {
                 alert('문제 발생!')
             })
     },
+    requestRegisterCommentToSpring({}, payload) {
+        const {writer, content, password, nickname, id } = payload
+        return axiosInst.spring.post('/board/comment/register', {writer, content, password, nickname, id})
+        .then(() => {
+            window.location.reload();
+          })
+          .catch(error => {
+            console.error("Error during comment registration:", error);
+          });
+    },
+    requestCommentListToSpring({ }, payload) {
+        const { id } = payload
+        return axiosInst.spring.get(`/board/comment/${id}`)
+        .then((res) => {
+            return res
+        })
+        .catch(() => {
+            alert('문제 발생!')
+        })
+    }
 }
