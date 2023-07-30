@@ -41,6 +41,8 @@
         const payload = {
           ticker: this.ticker,
           id: this.id,
+          purpose: 'delete'
+
         };
         await this.$router.push({ name: "BoardCheckPage", params: payload });
       },
@@ -48,7 +50,6 @@
         const payload = {
           ticker: this.ticker,
           id: this.id,
-          purpose: 'delete'
         };
         await this.requestBoardToSpring(payload);
       },
