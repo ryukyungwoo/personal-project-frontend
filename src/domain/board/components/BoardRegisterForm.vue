@@ -11,7 +11,17 @@
                 <tr>
                     <td>작성자</td>
                     <td>
-                        <input type="text" v-model="writer"/>
+                        <input type="text" 
+                        :value="nickname || writer" 
+                        :readonly="nickname !== ''" @input="updateWriter"/>
+                    </td>
+                </tr>
+                <tr v-if="!nickname">
+                    <td>
+                        비밀번호
+                    </td>
+                    <td>
+                        <input type="text" v-model="password">
                     </td>
                 </tr>
                 <tr>
@@ -23,10 +33,8 @@
             </table>
 
             <div>
-                <button type="submit">등록</button>
-                <router-link :to="{ name: 'BoardListPage' }">
-                    취소
-                </router-link>
+                <v-btn type="submit" color="primary">등록</v-btn>
+                <v-btn color="grey" @click.prevent="cancel">취소</v-btn>
             </div>
         </form>
     </div>
@@ -40,18 +48,37 @@ export default {
             type: String,
             required: true,
         },
+        nickname: {
+            type: String,
+            default: '',
+        }
     },
     data () {
         return {
             title: '제목을 입력하세요',
-            writer: '누구세요 ?',
+            writer: 'ㅇㅇ',
             content: '본문을 입력하세요',
+            password: '',
         }
     },
     methods: {
         onSubmit () {
-            const { title, writer, content, ticker } = this
-            this.$emit('submit', { title, writer, content, ticker })
+            if (!this.writer) {
+                alert("작성자를 입력해주세요.");
+                return;
+            }
+            if (!this.password && !this.nickname) {
+                alert("비밀번호를 입력해주세요.");
+                return;
+            }
+            const { title, writer, content, ticker, password, nickname } = this
+            this.$emit('submit', { title, writer, content, ticker, password, nickname })
+        },
+        updateWriter (event) {
+            this.writer = event.target.value;
+        },
+        cancel() {
+            this.$router.go(-1);
         }
     }
 }

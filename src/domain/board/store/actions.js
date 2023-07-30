@@ -21,9 +21,9 @@ export default {
     },
     requestCreateBoardToSpring ({}, payload) {
 
-        const { title, content, writer, ticker } = payload
+        const { title, content, writer, ticker, password, nickname } = payload
 
-        return axiosInst.spring.post(`/board/register/${ticker}`, { title, content, writer })
+        return axiosInst.spring.post(`/board/register/${ticker}`, { title, content, writer, password, nickname })
             .then((res) => {
                 alert('게시물 등록 성공!')
                 return res
