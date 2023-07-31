@@ -19,8 +19,8 @@ export default {
             
         return axiosInst.spring.post('/account/sign-in', { email, password })
         .then((res) => {
-            if (res.data != null) {
-                alert('로그인되었습니다.')
+            if (res.data) {
+            alert('로그인되었습니다.')
                 localStorage.setItem('isLogin', 'true');
     
                 const refreshTokenExpires = new Date(res.data);
@@ -113,4 +113,22 @@ export default {
             return;
         }
       },
+      async requestMyPageToSpring({}, ) {
+        const isLogin = localStorage.getItem('isLogin');
+          if (isLogin) {
+            const cookieString = document.cookie;
+            const value = cookieString
+            .split("; ")
+            .find((cookie) => cookie.startsWith("AccessToken"))
+            ?.split("=")[1];
+            try {
+                const res = await axiosInst.spring.post(`/account/get-my-page/${value}`);
+                return res.data;
+            } catch (error) {
+                alert("문제 발생");
+            }
+        } else {
+            return;
+        }
+      }
 }
